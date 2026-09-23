@@ -1,12 +1,12 @@
 [project]
-name = "mitmproxy"
+name = "exp-mitmproxy"
 description = "An interactive, SSL/TLS-capable intercepting proxy for HTTP/1, HTTP/2, and WebSockets."
 readme = "README.md"
 requires-python = ">=3.12"
 license = {file="LICENSE"}
 authors = [{name = "Aldo Cortesi", email = "aldo@corte.si"}]
-maintainers = [{name = "Maximilian Hils", email = "mitmproxy@maximilianhils.com"}]
-dynamic = ["version"]
+maintainers = [{name = "Experiential Labs"}]
+version = "12.2.3.post1"
 
 classifiers = [
     "License :: OSI Approved :: MIT License",
@@ -44,7 +44,7 @@ dependencies = [
     "hyperframe>=6.0,<=6.1.0",
     "kaitaistruct>=0.10,<=0.11",
     "ldap3>=2.8,<=2.9.1",
-    "mitmproxy_rs>=0.12.6,<0.13",  # relaxed upper bound here: we control this
+    "exp-mitmproxy-rs==0.12.11.post1",
     "msgpack>=1.0.0,<=1.1.2",
     "pydivert>=2.0.3,<=2.1.0; sys_platform == 'win32'",
     "pyOpenSSL>=24.3,<=27.0.0",
@@ -95,9 +95,9 @@ deploy = [
 
 [project.urls]
 Homepage = "https://mitmproxy.org"
-Source = "https://github.com/mitmproxy/mitmproxy/"
+Source = "https://github.com/experientiallabs/mitmproxy/"
 Documentation = "https://docs.mitmproxy.org/stable/"
-Issues = "https://github.com/mitmproxy/mitmproxy/issues"
+Issues = "https://github.com/experientiallabs/mitmproxy/issues"
 
 [project.scripts]
 mitmproxy = "mitmproxy.tools.main:mitmproxy"
@@ -110,9 +110,6 @@ hook-dirs = "mitmproxy.utils.pyinstaller:hook_dirs"
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
-
-[tool.setuptools.dynamic]
-version = {attr = "mitmproxy.version.VERSION"}
 
 [tool.setuptools.packages.find]
 include = ["mitmproxy*"]
@@ -327,3 +324,7 @@ commands = [
     ["ruff", "format", "."],
 ]
 dependency_groups = ["ruff"]
+
+[tool.uv.sources]
+# Development source for the unpublished fork; wheels retain a normal package requirement.
+exp-mitmproxy-rs = { git = "https://github.com/experientiallabs/mitmproxy_rs", rev = "20411534322a2d91d548d18b6f350968c5e489d0", subdirectory = "mitmproxy-rs" }

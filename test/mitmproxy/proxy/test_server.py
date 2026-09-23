@@ -104,3 +104,33 @@ async def test_no_reentrancy(capsys):
         Hook completed (must not happen before start is completed).
         """
     )
+
+
+@pytest.mark.parametrize(
+    "platform,mode,protocol,closed",
+    [
+        ("darwin", "local", "udp", False),
+        ("darwin", "local", "tcp", True),
+        ("darwin", "regular", "udp", True),
+        ("linux", "local", "udp", True),
+        ("win32", "local", "udp", True),
+    ],
+)
+async def test_idle_expiry_preserves_only_local_application_udp_sockets(
+    monkeypatch, platform, mode, protocol, closed
+):
+    monkeypatch.setattr(server.sys, "platform", platform)
+    handler = MockConnectionHandler()
+    handler.client.proxy_mode = ProxyMode.parse(mode)
+    handler.client.transport_protocol = protocol
+    handler.client.peername = ("127.0.0.1", 1234)
+    reader = asyncio.create_task(asyncio.Event().wait())
+    handler.transports[handler.client].handler = reader
+    try:
+        handler.timeout_watchdog.timeout = 0
+        await asyncio.wait_for(handler.timeout_watchdog.watch(), 1)
+        await asyncio.sleep(0)
+        assert reader.cancelled() == closed
+    finally:
+        reader.cancel()
+        await asyncio.gather(reader, return_exceptions=True)
