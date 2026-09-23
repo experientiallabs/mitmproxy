@@ -4,6 +4,7 @@ on:
   pull_request:
   push:
     branches: [codex/capture-package]
+    tags: ['exp-v*']
   workflow_dispatch:
 
 permissions:
@@ -25,6 +26,18 @@ jobs:
       - uses: astral-sh/setup-uv@v6
         with:
           python-version: '3.13'
+      - name: Verify release version
+        if: startsWith(github.ref, 'refs/tags/exp-v')
+        shell: bash
+        run: |
+          uv run --no-project python - <<'PY'
+          import os
+          import tomllib
+          from pathlib import Path
+          project = tomllib.loads(Path('pyproject.toml').read_text())['project']
+          assert project['name'] == 'exp-mitmproxy'
+          assert os.environ['GITHUB_REF_NAME'] == 'exp-v' + project['version']
+          PY
       - uses: dtolnay/rust-toolchain@stable
       - name: Install the pinned fork and test dependencies
         run: uv sync --group dev
@@ -35,8 +48,24 @@ jobs:
       - name: Exercise the proxy engine and stream lifecycle
         run: uv run pytest -q test/mitmproxy/proxy test/mitmproxy/addons/test_proxyserver.py test/mitmproxy/addons/test_next_layer.py
       - name: Build the distribution
-        run: uv build --wheel
+        run: uv build --no-sources
       - uses: actions/upload-artifact@v4
         with:
           name: exp-mitmproxy-${{ runner.os }}
-          path: dist/*.whl
+          path: dist/*
+
+  publish:
+    if: github.repository == 'experientiallabs/mitmproxy' && startsWith(github.ref, 'refs/tags/exp-v')
+    needs: package
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: exp-mitmproxy-Linux
+          path: dist
+      - name: Publish tested distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # release/v1
