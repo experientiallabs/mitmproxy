@@ -327,4 +327,4 @@ dependency_groups = ["ruff"]
 
 [tool.uv.sources]
 # Development source for the unpublished fork; wheels retain a normal package requirement.
-exp-mitmproxy-rs = { git = "https://github.com/experientiallabs/mitmproxy_rs", rev = "c9c55057cb58fe13a22f6a420629df13c65bd365", subdirectory = "mitmproxy-rs" }
+exp-mitmproxy-rs = { git = "https://github.com/experientiallabs/mitmproxy_rs", rev = "866da0a0aff1a8e57def4da6a941fca0c44dd98d", subdirectory = "mitmproxy-rs" }
