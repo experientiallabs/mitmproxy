@@ -86,6 +86,13 @@ jobs:
     steps:
       - if: matrix.container
         run: |
+          # Preserve the glibc baseline after Bullseye LTS ended. These signed,
+          # timestamped archives retain the packages removed from live mirrors.
+          cat > /etc/apt/sources.list <<'EOF'
+          deb [check-valid-until=no] http://snapshot.debian.org/archive/debian/20260831T235959Z bullseye main
+          deb [check-valid-until=no] http://snapshot.debian.org/archive/debian-security/20260831T235959Z bullseye-security main
+          deb [check-valid-until=no] http://snapshot.debian.org/archive/debian/20260831T235959Z bullseye-updates main
+          EOF
           apt-get update
           apt-get install --no-install-recommends -y git ca-certificates binutils build-essential
       - uses: mhils/workflows/checkout@acc73c7af100db9fb3f1ad3c0178d382048e943f
@@ -125,9 +132,19 @@ jobs:
           path: release/dist
 
   build-wheel:
-    uses: mhils/workflows/.github/workflows/python-build.yml@acc73c7af100db9fb3f1ad3c0178d382048e943f
-    with:
-      artifact: binaries.wheel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mhils/workflows/checkout@acc73c7af100db9fb3f1ad3c0178d382048e943f
+      - uses: mhils/workflows/setup-uv@acc73c7af100db9fb3f1ad3c0178d382048e943f
+      - uses: mhils/workflows/uv-sync@acc73c7af100db9fb3f1ad3c0178d382048e943f
+        with:
+          args: --only-group dev
+      - name: Build archives with the locked security-patched backend
+        run: sudo unshare --net -- "$(which python3)" -m build --no-isolation
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: binaries.wheel
+          path: dist/
 
   build-windows-installer:
     runs-on: windows-latest
