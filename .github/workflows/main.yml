@@ -86,6 +86,13 @@ jobs:
     steps:
       - if: matrix.container
         run: |
+          # Preserve the glibc baseline after Bullseye LTS ended. These signed,
+          # timestamped archives retain the packages removed from live mirrors.
+          cat > /etc/apt/sources.list <<'EOF'
+          deb [check-valid-until=no] http://snapshot.debian.org/archive/debian/20260831T235959Z bullseye main
+          deb [check-valid-until=no] http://snapshot.debian.org/archive/debian-security/20260831T235959Z bullseye-security main
+          deb [check-valid-until=no] http://snapshot.debian.org/archive/debian/20260831T235959Z bullseye-updates main
+          EOF
           apt-get update
           apt-get install --no-install-recommends -y git ca-certificates binutils build-essential
       - uses: mhils/workflows/checkout@acc73c7af100db9fb3f1ad3c0178d382048e943f
