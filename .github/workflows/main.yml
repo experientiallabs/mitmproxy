@@ -132,9 +132,19 @@ jobs:
           path: release/dist
 
   build-wheel:
-    uses: mhils/workflows/.github/workflows/python-build.yml@acc73c7af100db9fb3f1ad3c0178d382048e943f
-    with:
-      artifact: binaries.wheel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mhils/workflows/checkout@acc73c7af100db9fb3f1ad3c0178d382048e943f
+      - uses: mhils/workflows/setup-uv@acc73c7af100db9fb3f1ad3c0178d382048e943f
+      - uses: mhils/workflows/uv-sync@acc73c7af100db9fb3f1ad3c0178d382048e943f
+        with:
+          args: --only-group dev
+      - name: Build archives with the locked security-patched backend
+        run: sudo unshare --net -- "$(which python3)" -m build --no-isolation
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: binaries.wheel
+          path: dist/
 
   build-windows-installer:
     runs-on: windows-latest
