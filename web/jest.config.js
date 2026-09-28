@@ -14,13 +14,13 @@ module.exports = async () => {
         collectCoverageFrom: ["src/js/**/*.{js,jsx,ts,tsx}"],
         transform: {
             "^.+\\.[jt]sx?$": [
-                "esbuild-jest",
+                "babel-jest",
                 {
-                    loaders: {
-                        ".js": "tsx",
-                    },
-                    format: "cjs",
-                    sourcemap: true,
+                    presets: [
+                        ["@babel/preset-env", { targets: { node: "current" } }],
+                        "@babel/preset-react",
+                        "@babel/preset-typescript",
+                    ],
                 },
             ],
         },
