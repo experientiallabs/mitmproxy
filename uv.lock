@@ -648,7 +648,7 @@ requires-dist = [
     { name = "brotli", specifier = ">=1.0,<=1.2.0" },
     { name = "certifi", specifier = ">=2019.9.11" },
     { name = "cryptography", specifier = "<=50.0.1,>=50.0.1" },
-    { name = "exp-mitmproxy-rs", git = "https://github.com/experientiallabs/mitmproxy_rs?subdirectory=mitmproxy-rs&rev=866da0a0aff1a8e57def4da6a941fca0c44dd98d" },
+    { name = "exp-mitmproxy-rs", git = "https://gitlab.com/experiential-labs-group/mitmproxy_rs.git?subdirectory=mitmproxy-rs&rev=866da0a0aff1a8e57def4da6a941fca0c44dd98d" },
     { name = "flask", specifier = "<=3.1.3,>=3.1.3" },
     { name = "h11", specifier = "<=0.16.0,>=0.16.0" },
     { name = "h2", specifier = "<=4.4.1,>=4.4.1" },
@@ -716,7 +716,7 @@ tox = [
 [[package]]
 name = "exp-mitmproxy-rs"
 version = "0.12.11.post1"
-source = { git = "https://github.com/experientiallabs/mitmproxy_rs?subdirectory=mitmproxy-rs&rev=866da0a0aff1a8e57def4da6a941fca0c44dd98d#866da0a0aff1a8e57def4da6a941fca0c44dd98d" }
+source = { git = "https://gitlab.com/experiential-labs-group/mitmproxy_rs.git?subdirectory=mitmproxy-rs&rev=866da0a0aff1a8e57def4da6a941fca0c44dd98d#866da0a0aff1a8e57def4da6a941fca0c44dd98d" }
 dependencies = [
     { name = "mitmproxy-linux", marker = "sys_platform == 'linux'" },
     { name = "mitmproxy-macos", marker = "sys_platform == 'darwin'" },
