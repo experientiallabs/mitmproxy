@@ -50,13 +50,30 @@ publish:
     - if: $CI_COMMIT_TAG =~ /^exp-v/ && $CI_COMMIT_REF_PROTECTED == "true" && $CI_PIPELINE_SOURCE == "push"
   needs:
     - job: package
-  # PYPI_TOKEN_EXP_MITMPROXY is a protected, masked, project-scoped PyPI API
-  # token whose environment scope is pypi, so only this job receives it.
+  # PyPI trusted publishing: PyPI trusts this project's .gitlab-ci.yml in the
+  # pypi environment, so the job trades its GitLab ID token for a short-lived
+  # upload token and no PyPI secret is stored in GitLab.
   environment:
     name: pypi
+  id_tokens:
+    PYPI_ID_TOKEN:
+      aud: pypi
   variables:
     GIT_STRATEGY: none
   script:
     - python3 -m pip install --quiet --no-cache-dir --disable-pip-version-check --root-user-action=ignore "uv==${UV_VERSION}"
-    - ': "${PYPI_TOKEN_EXP_MITMPROXY:?PYPI_TOKEN_EXP_MITMPROXY is not available to this pipeline}"'
-    - UV_PUBLISH_TOKEN="${PYPI_TOKEN_EXP_MITMPROXY}" uv publish --trusted-publishing never --check-url https://pypi.org/simple/ dist/*
+    - |
+      UV_PUBLISH_TOKEN="$(python3 - <<'PY'
+      import json
+      import os
+      import urllib.request
+      request = urllib.request.Request(
+          "https://pypi.org/_/oidc/mint-token",
+          data=json.dumps({"token": os.environ["PYPI_ID_TOKEN"]}).encode(),
+          headers={"Content-Type": "application/json"},
+      )
+      print(json.load(urllib.request.urlopen(request, timeout=30))["token"])
+      PY
+      )"
+      export UV_PUBLISH_TOKEN
+      uv publish --trusted-publishing never --check-url https://pypi.org/simple/ dist/*
