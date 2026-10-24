@@ -1,0 +1,62 @@
+# Release pipeline for the exp-mitmproxy fork. A protected exp-v<version> tag
+# tests the proxy engine, builds the distribution and publishes it to PyPI.
+# Manual pipelines (web or API) run the same tests and build without publishing.
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^exp-v/ && $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_PIPELINE_SOURCE =~ /^(web|api)$/
+
+stages:
+  - test
+  - publish
+
+variables:
+  UV_VERSION: "0.12.18"
+
+package:
+  stage: test
+  image: python:3.13.17-trixie@sha256:2d90366719bf27f9a26d3496b34bfe44fc383b10e7360ca316152f7b348f4f92
+  script:
+    - python3 -m pip install --quiet --no-cache-dir --disable-pip-version-check --root-user-action=ignore "uv==${UV_VERSION}"
+    - |
+      # A release tag must name the version it publishes.
+      if [ -n "${CI_COMMIT_TAG:-}" ]; then
+        uv run --no-project python - <<'PY'
+      import os
+      import tomllib
+      from pathlib import Path
+      project = tomllib.loads(Path("pyproject.toml").read_text())["project"]
+      assert project["name"] == "exp-mitmproxy"
+      assert os.environ["CI_COMMIT_TAG"] == "exp-v" + project["version"], os.environ["CI_COMMIT_TAG"]
+      PY
+      fi
+    # --no-sources installs the published exp-mitmproxy-rs wheel, as a release
+    # install does, instead of compiling the pinned git revision.
+    - uv sync --group dev --no-sources
+    - uv run ruff check mitmproxy/proxy/server.py test/mitmproxy/proxy/test_server.py
+    - uv run ruff format --check mitmproxy/proxy/server.py test/mitmproxy/proxy/test_server.py
+    - uv run pytest -q test/mitmproxy/net/test_encoding.py test/mitmproxy/proxy test/mitmproxy/addons/test_proxyserver.py test/mitmproxy/addons/test_next_layer.py
+    - uv build --no-sources
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 week
+
+publish:
+  stage: publish
+  image: python:3.13.17-trixie@sha256:2d90366719bf27f9a26d3496b34bfe44fc383b10e7360ca316152f7b348f4f92
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^exp-v/ && $CI_COMMIT_REF_PROTECTED == "true" && $CI_PIPELINE_SOURCE == "push"
+  needs:
+    - job: package
+  # PYPI_TOKEN_EXP_MITMPROXY is a protected, masked, project-scoped PyPI API
+  # token whose environment scope is pypi, so only this job receives it.
+  environment:
+    name: pypi
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - python3 -m pip install --quiet --no-cache-dir --disable-pip-version-check --root-user-action=ignore "uv==${UV_VERSION}"
+    - ': "${PYPI_TOKEN_EXP_MITMPROXY:?PYPI_TOKEN_EXP_MITMPROXY is not available to this pipeline}"'
+    - UV_PUBLISH_TOKEN="${PYPI_TOKEN_EXP_MITMPROXY}" uv publish --trusted-publishing never --check-url https://pypi.org/simple/ dist/*
