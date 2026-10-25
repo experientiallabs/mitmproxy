@@ -8,7 +8,6 @@ import { ServerStatus } from "./CaptureSetup";
 import type { ServerInfo } from "../../ducks/backendState";
 import LocalDropdown from "./LocalDropdown";
 import { fetchProcesses } from "../../ducks/processes";
-import Icon from "../common/Icon";
 
 export default function Local() {
     const serverState = useAppSelector((state) => state.modes.local);
@@ -85,20 +84,21 @@ function LocalRow({
                             .map((p) => (
                                 <div key={p} className="selected-process">
                                     {p}
-                                    <Icon
-                                        name="close"
+                                    <i
+                                        className="fa fa-times"
+                                        aria-hidden="true"
                                         onClick={() => handleDeletionProcess(p)}
-                                    />
+                                    ></i>
                                 </div>
                             ))}
                     </div>
                     <div className="dropdown-container">
                         <LocalDropdown server={server} />
-                        <Icon
-                            name="refresh"
-                            className="text-muted"
+                        <i
+                            className="fa fa-refresh"
+                            aria-hidden="true"
                             onClick={() => dispatch(fetchProcesses())}
-                        />
+                        ></i>
                     </div>
                 </div>
             </ModeToggle>

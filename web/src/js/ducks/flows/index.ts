@@ -10,13 +10,11 @@ import {
     buildIndex,
     buildLookup,
     insertViewItem,
-    insertViewItemAt,
     removeViewItemAt,
     updateViewItem,
     withElemRemoved,
 } from "./_utils";
 import { toSorted, toSpliced } from "./_compat";
-import { OPTIONS_RECEIVE, OPTIONS_UPDATE } from "../options";
 
 export * from "./_backend_actions";
 
@@ -49,10 +47,6 @@ export interface FlowsState {
     _viewIndex: Map<string, number>;
 
     sort: { column?: keyof typeof sortFunctions; desc: boolean };
-    // Mirrors the server's view_order_reversed option. When no column sort is
-    // active, the view follows the server flow order, so newly added flows go to
-    // the front when this is set and to the back otherwise.
-    orderReversed: boolean;
     selected: Flow[];
     selectedIds: Set<string>;
     highlightedIds: Set<string>;
@@ -66,7 +60,6 @@ export const defaultState: FlowsState = {
     _viewIndex: new Map(),
 
     sort: { column: undefined, desc: false },
-    orderReversed: false,
     selected: [],
     selectedIds: new Set(),
     highlightedIds: new Set(),
@@ -84,7 +77,7 @@ export default function flowsReducer(
     action: UnknownAction,
 ): FlowsState {
     if (FLOWS_RECEIVE.match(action)) {
-        const { sort, orderReversed } = state;
+        const { sort } = state;
         const list = action.payload;
         const _listIndex = buildIndex(list);
         const byId = new Map(list.map((f) => [f.id, f]));
@@ -104,7 +97,6 @@ export default function flowsReducer(
             view,
             _viewIndex,
             sort,
-            orderReversed,
             selected,
             selectedIds,
             highlightedIds,
@@ -114,7 +106,7 @@ export default function flowsReducer(
         if (state._listIndex.has(flow.id)) {
             return state; // WebSocket/HTTP race
         }
-        const { sort, selected, selectedIds, orderReversed } = state;
+        const { sort, selected, selectedIds } = state;
         let { view, _viewIndex, highlightedIds } = state;
         // Update list
         const _listIndex = new Map(state._listIndex);
@@ -127,12 +119,11 @@ export default function flowsReducer(
             matching_filters[FilterName.Search] === true ||
             matching_filters[FilterName.Search] === undefined
         ) {
-            ({ view, _viewIndex } = insertFlowIntoView(
+            ({ view, _viewIndex } = insertViewItem(
                 view,
                 _viewIndex,
                 flow,
-                sort,
-                orderReversed,
+                makeSort(sort),
             ));
         }
         // Update highlight
@@ -148,14 +139,13 @@ export default function flowsReducer(
             view,
             _viewIndex,
             sort,
-            orderReversed,
             selected,
             selectedIds,
             highlightedIds,
         };
     } else if (FLOWS_UPDATE.match(action)) {
         const { flow, matching_filters } = action.payload;
-        const { _listIndex, sort, selectedIds, orderReversed } = state;
+        const { _listIndex, sort, selectedIds } = state;
         let { view, _viewIndex, selected, highlightedIds } = state;
         // Update list
         const listPos = state._listIndex.get(flow.id);
@@ -219,14 +209,13 @@ export default function flowsReducer(
             view,
             _viewIndex,
             sort,
-            orderReversed,
             selected,
             selectedIds,
             highlightedIds,
         };
     } else if (FLOWS_REMOVE.match(action)) {
         const flow_id = action.payload;
-        const { sort, orderReversed } = state;
+        const { sort } = state;
         let { view, _viewIndex, selected, selectedIds } = state;
         const listPos = state._listIndex.get(flow_id);
         if (listPos === undefined) {
@@ -267,7 +256,6 @@ export default function flowsReducer(
             view,
             _viewIndex,
             sort,
-            orderReversed,
             selected,
             selectedIds,
             highlightedIds,
@@ -323,39 +311,9 @@ export default function flowsReducer(
             selected: action.payload,
             selectedIds: buildLookup(action.payload),
         };
-    } else if (OPTIONS_RECEIVE.match(action) || OPTIONS_UPDATE.match(action)) {
-        const update = action.payload.view_order_reversed;
-        if (update !== undefined) {
-            return { ...state, orderReversed: update.value };
-        }
-        return state;
     } else {
         return state;
     }
-}
-
-/**
- * Insert a flow that newly enters the view. With an active column sort the flow
- * is placed according to that sort. Otherwise the view follows the server flow
- * order, so the flow goes to the front when view_order_reversed is set and to the
- * back otherwise.
- */
-function insertFlowIntoView(
-    view: Flow[],
-    _viewIndex: Map<string, number>,
-    flow: Flow,
-    sort: FlowsState["sort"],
-    orderReversed: boolean,
-): { view: Flow[]; _viewIndex: Map<string, number> } {
-    if (sort.column) {
-        return insertViewItem(view, _viewIndex, flow, makeSort(sort));
-    }
-    return insertViewItemAt(
-        view,
-        _viewIndex,
-        flow,
-        orderReversed ? 0 : view.length,
-    );
 }
 
 export function makeSort({

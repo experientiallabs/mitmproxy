@@ -1,7 +1,6 @@
 import * as React from "react";
 import FileChooser from "../common/FileChooser";
 import Dropdown, { Divider, MenuItem } from "../common/Dropdown";
-import Icon from "../common/Icon";
 import * as flowsActions from "../../ducks/flows";
 import HideInStatic from "../common/HideInStatic";
 import { useAppDispatch, useAppSelector } from "../../ducks";
@@ -20,7 +19,7 @@ export default React.memo(function FileMenu() {
         >
             <li>
                 <FileChooser
-                    icon="openFolder"
+                    icon="fa-folder-open"
                     text="&nbsp;Open..."
                     onClick={
                         // stop event propagation: we must keep the input in DOM for upload to work.
@@ -33,13 +32,13 @@ export default React.memo(function FileMenu() {
                 />
             </li>
             <MenuItem onClick={() => location.replace("/flows/dump")}>
-                <Icon name="save" />
+                <i className="fa fa-fw fa-floppy-o" />
                 &nbsp;Save
             </MenuItem>
             <MenuItem
                 onClick={() => location.replace("/flows/dump?filter=" + filter)}
             >
-                <Icon name="save" />
+                <i className="fa fa-fw fa-floppy-o" />
                 &nbsp;Save filtered
             </MenuItem>
             <MenuItem
@@ -48,15 +47,15 @@ export default React.memo(function FileMenu() {
                     dispatch(flowsActions.clear())
                 }
             >
-                <Icon name="delete" />
+                <i className="fa fa-fw fa-trash" />
                 &nbsp;Clear All
             </MenuItem>
             <HideInStatic>
                 <Divider />
                 <li>
                     <a href="http://mitm.it/" target="_blank" rel="noreferrer">
-                        <Icon name="external" />
-                        &nbsp;Install Certificates
+                        <i className="fa fa-fw fa-external-link" />
+                        &nbsp;Install Certificates...
                     </a>
                 </li>
             </HideInStatic>

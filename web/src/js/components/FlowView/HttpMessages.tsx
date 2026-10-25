@@ -104,11 +104,9 @@ function ResponseLine({ flow }: ResponseLineProps) {
                     &nbsp;
                     <ValueEditor
                         content={flow.response.reason}
-                        onEditDone={(reason) =>
+                        onEditDone={(msg) =>
                             dispatch(
-                                flowActions.update(flow, {
-                                    response: { reason },
-                                }),
+                                flowActions.update(flow, { response: { msg } }),
                             )
                         }
                         selectAllOnClick={true}
@@ -169,25 +167,16 @@ function Trailers({ flow, message }: TrailersProps) {
 const Message = React.memo(function Message({
     flow,
     message,
-    part,
-}:
-    | {
-          flow: HTTPFlow;
-          message: HTTPMessage;
-          part: "request";
-      }
-    | {
-          flow: HTTPFlow & { response: HTTPResponse };
-          message: HTTPMessage;
-          part: "response";
-      }) {
+}: {
+    flow: HTTPFlow;
+    message: HTTPMessage;
+}) {
+    const part = flow.request === message ? "request" : "response";
+    const FirstLine = flow.request === message ? RequestLine : ResponseLine;
+
     return (
         <section className={part}>
-            {part === "request" ? (
-                <RequestLine flow={flow} />
-            ) : (
-                <ResponseLine flow={flow} />
-            )}
+            <FirstLine flow={flow} />
             <Headers flow={flow} message={message} />
             <hr />
             <HttpMessage key={flow.id + part} flow={flow} message={message} />
@@ -198,7 +187,7 @@ const Message = React.memo(function Message({
 
 export function Request() {
     const flow = useAppSelector((state) => state.flows.selected[0]) as HTTPFlow;
-    return <Message flow={flow} message={flow.request} part="request" />;
+    return <Message flow={flow} message={flow.request} />;
 }
 Request.displayName = "Request";
 
@@ -206,6 +195,6 @@ export function Response() {
     const flow = useAppSelector(
         (state) => state.flows.selected[0],
     ) as HTTPFlow & { response: HTTPResponse };
-    return <Message flow={flow} message={flow.response} part="response" />;
+    return <Message flow={flow} message={flow.response} />;
 }
 Response.displayName = "Response";

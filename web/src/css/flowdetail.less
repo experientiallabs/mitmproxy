@@ -5,7 +5,7 @@
     flex-direction: column;
 
     nav {
-        background-color: var(--mitmweb-bg-alt);
+        background-color: #f2f2f2;
     }
 
     section {
@@ -14,7 +14,7 @@
         padding: 5px 12px 10px;
 
         > footer {
-            box-shadow: 0 0 3px var(--mitmweb-shadow);
+            box-shadow: 0 0 3px gray;
             padding: 2px;
             margin: 0;
             height: 23px;
@@ -25,22 +25,19 @@
         margin-top: 2px;
         padding-left: 10px;
         padding-right: 7px;
-        color: var(--mitmweb-fg-muted);
+        color: grey;
         font-size: 15px;
         border: none;
-        background: transparent;
-        appearance: none;
-        -webkit-appearance: none;
     }
 
     .close-button:hover {
-        color: var(--mitmweb-fg-strong);
+        color: black;
     }
 
     .first-line {
         font-family: @font-family-monospace;
-        background-color: var(--mitmweb-first-line-bg);
-        color: var(--mitmweb-first-line-fg);
+        background-color: #428bca;
+        color: white;
         margin: 0 -8px 2px;
         padding: 4px 8px;
         border-radius: 5px;
@@ -70,8 +67,6 @@
     }
 
     hr {
-        border: 0;
-        border-top: 1px solid var(--mitmweb-border-lighter);
         margin: 0;
     }
 }
@@ -127,8 +122,10 @@
     table-layout: fixed;
     word-break: break-all;
 
-    tr:not(:first-child) td {
-        border-top: 1px solid var(--mitmweb-border-lighter);
+    tr {
+        &:not(:first-child) {
+            border-top: 1px solid #f7f7f7;
+        }
     }
 
     td {
@@ -163,12 +160,12 @@
     }
 
     .inline-input {
-        background-color: var(--mitmweb-bg);
+        background-color: white;
     }
 
     .kv-add-row {
         opacity: 0;
-        color: var(--mitmweb-fg-muted);
+        color: #666;
         position: absolute;
         bottom: 4px;
         right: 4px;

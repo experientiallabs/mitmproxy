@@ -17,7 +17,6 @@ test("FlowRow", async () => {
                     highlighted={false}
                     displayColumnNames={displayColumnNames}
                     rowNumber={0}
-                    height={32}
                 />
                 <FlowRow
                     flow={tflow3}
@@ -25,7 +24,6 @@ test("FlowRow", async () => {
                     highlighted={false}
                     displayColumnNames={displayColumnNames}
                     rowNumber={3}
-                    height={32}
                 />
             </tbody>
         </table>,

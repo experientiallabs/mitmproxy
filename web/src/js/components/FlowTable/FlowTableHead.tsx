@@ -1,7 +1,6 @@
 import * as React from "react";
 import classnames from "classnames";
 import FlowColumns from "./FlowColumns";
-import Icon from "../common/Icon";
 
 import { setSort } from "../../ducks/flows";
 import { useAppDispatch, useAppSelector } from "../../ducks";
@@ -42,16 +41,7 @@ export default React.memo(function FlowTableHead() {
                         )
                     }
                 >
-                    <span className="th-content">
-                        {FlowColumns[colName].headerName}
-                    </span>
-                    {sortColumn === colName && (
-                        <Icon
-                            strokeWidth={3}
-                            name={sortDesc ? "chevronDown" : "chevronUp"}
-                            className="sort-indicator"
-                        />
-                    )}
+                    {FlowColumns[colName].headerName}
                 </th>
             ))}
         </tr>

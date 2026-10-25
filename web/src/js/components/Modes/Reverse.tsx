@@ -17,7 +17,6 @@ import ValueEditor from "../editors/ValueEditor";
 import { ServerStatus } from "./CaptureSetup";
 import { ModeToggle } from "./ModeToggle";
 import { Popover } from "./Popover";
-import Icon from "../common/Icon";
 
 interface ReverseToggleRowProps {
     removable: boolean;
@@ -50,7 +49,7 @@ export default function Reverse() {
                     className="mode-reverse-add-server"
                     onClick={() => dispatch(addServer())}
                 >
-                    <Icon name="addSquare" />
+                    <i className="fa fa-plus-square-o" aria-hidden="true"></i>
                     Add additional server
                 </div>
             </div>
@@ -113,7 +112,7 @@ function ReverseToggleRow({
                     }
                     placeholder="example.com"
                 />
-                <Popover icon="settings">
+                <Popover iconClass="fa fa-cog">
                     <h4>Advanced Configuration</h4>
                     <p>Listen Host</p>
                     <ValueEditor
@@ -140,14 +139,11 @@ function ReverseToggleRow({
                     />
                 </Popover>
                 {removable && (
-                    <span style={{ cursor: "pointer" }}>
-                        <Icon
-                            name="delete"
-                            size={20}
-                            className="text-muted"
-                            onClick={deleteServer}
-                        />
-                    </span>
+                    <i
+                        className="fa fa-fw fa-trash fa-lg"
+                        aria-hidden="true"
+                        onClick={deleteServer}
+                    ></i>
                 )}
             </ModeToggle>
             <ServerStatus error={error} backendState={backendState} />

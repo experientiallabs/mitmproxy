@@ -11,6 +11,7 @@ import abc
 import asyncio
 import collections
 import logging
+import sys
 import time
 from collections.abc import Awaitable
 from collections.abc import Callable
@@ -342,6 +343,14 @@ class ConnectionHandler(metaclass=abc.ABCMeta):
                             transport.handler.cancel(f"Error sending data: {e}")
 
     async def on_timeout(self) -> None:
+        if (
+            sys.platform == "darwin"
+            and self.client.transport_protocol == "udp"
+            and self.client.proxy_mode.type_name == "local"
+        ):
+            # macOS local interception owns an application's real socket. Closing it on
+            # idle expiry breaks later sends. Native EOF and shutdown own its lifetime.
+            return
         try:
             handler = self.transports[self.client].handler
         except KeyError:  # pragma: no cover

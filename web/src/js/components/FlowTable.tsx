@@ -34,8 +34,8 @@ export class PureFlowTable extends React.Component<
     private viewport = React.createRef<HTMLDivElement>();
     private head = React.createRef<HTMLTableSectionElement>();
 
-    constructor(props: FlowTableProps) {
-        super(props);
+    constructor(props, context) {
+        super(props, context);
 
         this.state = {
             vScroll: calcVScroll(),
@@ -60,28 +60,12 @@ export class PureFlowTable extends React.Component<
     componentDidUpdate(
         prevProps: FlowTableProps,
         prevState: FlowTableState,
-        snapshot: boolean,
+        snapshot,
     ) {
-        void prevState;
         if (snapshot) {
             autoscroll.adjustScrollTop(this.viewport);
         }
-        // Only recompute the virtual-scroll window when the flow list
-        // or the row height actually changed. Other call sites still
-        // drive onViewportUpdate as needed (componentDidMount, the
-        // resize listener, the viewport onScroll, the post-scroll-into-
-        // view call). Calling it unconditionally from here let
-        // setState -> componentDidUpdate -> setState spin whenever
-        // vScroll.end * rowHeight was less than scrollTop: the capped
-        // Math.min(scrollTop, vScroll.end * rowHeight) stayed strictly
-        // below scrollTop and the `state.viewportTop !== scrollTop`
-        // setState condition kept re-firing.
-        if (
-            prevProps.flowView !== this.props.flowView ||
-            prevProps.rowHeight !== this.props.rowHeight
-        ) {
-            this.onViewportUpdate();
-        }
+        this.onViewportUpdate();
 
         const { onlySelectedId } = this.props;
 
@@ -148,7 +132,6 @@ export class PureFlowTable extends React.Component<
             highlightedIds,
             displayColumnNames,
             listIndex,
-            rowHeight,
         } = this.props;
 
         return (
@@ -176,7 +159,6 @@ export class PureFlowTable extends React.Component<
                                     highlighted={highlightedIds.has(flow.id)}
                                     displayColumnNames={displayColumnNames}
                                     rowNumber={listIndex.get(flow.id)!}
-                                    height={rowHeight}
                                 />
                             ))}
                         <tr style={{ height: vScroll.paddingBottom }} />

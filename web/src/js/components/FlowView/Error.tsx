@@ -1,9 +1,9 @@
-import type { Error as FlowError, Flow } from "../../flow";
+import type { HTTPFlow } from "../../flow";
 import { formatTimeStamp } from "../../utils";
 import * as React from "react";
 
 type ErrorProps = {
-    flow: Flow & { error: FlowError };
+    flow: HTTPFlow & { error: Error };
 };
 
 export default function Error({ flow }: ErrorProps) {

@@ -1,11 +1,10 @@
 import React from "react";
 import { useAppSelector } from "../../ducks";
 import Dropdown, { MenuItem } from "../common/Dropdown";
-import Icon from "../common/Icon";
 
 type ViewSelectorProps = {
     value: string;
-    onChange: (viewName: string) => void;
+    onChange: (string) => void;
 };
 
 export default function ViewSelector({ value, onChange }: ViewSelectorProps) {
@@ -15,7 +14,7 @@ export default function ViewSelector({ value, onChange }: ViewSelectorProps) {
 
     const inner = (
         <span>
-            <Icon name="files" />
+            <i className="fa fa-fw fa-files-o" />
             &nbsp;<b>View:</b> {value.toLowerCase()} <span className="caret" />
         </span>
     );

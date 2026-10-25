@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import classnames from "classnames";
 import Filt from "../../filt/filt";
-import Icon, { type IconName } from "../common/Icon";
 import FilterDocs from "./FilterDocs";
 
 export enum FilterIcon {
     SEARCH = "search",
-    HIGHLIGHT = "highlight",
-    INTERCEPT = "intercept",
+    HIGHLIGHT = "tag",
+    INTERCEPT = "pause",
 }
 
 type FilterInputProps = {
-    icon: IconName;
+    icon: FilterIcon;
     color: string;
     placeholder: string;
     value: string;
@@ -30,8 +29,8 @@ export default class FilterInput extends Component<
 > {
     inputRef = React.createRef<HTMLInputElement>();
 
-    constructor(props: FilterInputProps) {
-        super(props);
+    constructor(props, context) {
+        super(props, context);
 
         // Consider both focus and mouseover for showing/hiding the tooltip,
         // because onBlur of the input is triggered before the click on the tooltip
@@ -51,14 +50,8 @@ export default class FilterInput extends Component<
         this.selectFilter = this.selectFilter.bind(this);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps: FilterInputProps) {
-        // Local state intentionally diverges from props while typing
-        // (only valid filters reach the parent via `onChange`), so an
-        // unconditional sync would wipe the user's in-progress text on
-        // any unrelated parent re-render.
-        if (nextProps.value !== this.props.value) {
-            this.setState({ value: nextProps.value });
-        }
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        this.setState({ value: nextProps.value });
     }
 
     isValid(filt: string) {
@@ -146,15 +139,13 @@ export default class FilterInput extends Component<
                 })}
             >
                 <span className="input-group-addon">
-                    <span style={{ color }}>
-                        <Icon name={icon} strokeWidth={2.5} />
-                    </span>
+                    <i className={"fa fa-fw fa-" + icon} style={{ color }} />
                 </span>
                 <input
                     type="text"
                     ref={this.inputRef}
                     placeholder={placeholder}
-                    className="input"
+                    className="form-control"
                     value={value}
                     onChange={this.onChange}
                     onFocus={this.onFocus}
