@@ -1,3 +1,20 @@
+# Experiential fork releases
+
+GitHub Actions `main.yml` builds and tests pull requests and main without publishing.
+A protected `exp-v<version>` tag reachable from main publishes the tested
+`exp-mitmproxy` distributions through the `pypi` environment.
+The tag must equal the Python package version prefixed with `exp-v`.
+Manual workflow runs are build-only.
+
+Configure the existing PyPI project with a GitHub trusted publisher:
+owner `experientiallabs`, repository `mitmproxy`, workflow `main.yml`, environment `pypi`.
+Only the publish job receives `id-token: write`. It uploads build artifacts
+without checking out or executing package source. Existing filenames are skipped.
+Protect `exp-v*` tag creation, updates, and deletion, and restrict the `pypi`
+environment to those protected tags before creating a release tag.
+
+## Upstream reference
+
 # Publishing the Capture proxy package
 
 This fork publishes `exp-mitmproxy`. Its Python import remains `mitmproxy`.
