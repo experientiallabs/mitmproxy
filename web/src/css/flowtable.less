@@ -15,47 +15,41 @@
     table {
         width: 100%;
         table-layout: fixed;
-        border-collapse: collapse;
-        border-spacing: 0;
     }
 
     thead tr {
-        background-color: var(--mitmweb-bg-alt);
-        border-bottom: solid var(--mitmweb-border) 1px;
+        background-color: #f2f2f2;
+        border-bottom: solid #bebebe 1px;
         line-height: 23px;
     }
 
     th {
         font-weight: normal;
-        text-align: left;
-        vertical-align: bottom;
         position: relative !important;
-        padding: 0;
         padding-left: 1px;
         .user-select(none);
 
         &.sort-asc,
         &.sort-desc {
-            background-color: var(--mitmweb-th-sorted-bg);
-            padding-right: 18px;
+            background-color: lighten(#f2f2f2, 3%);
         }
 
-        .th-content {
-            display: block;
-            min-height: 23px;
-        }
-
-        .sort-indicator {
+        &.sort-asc:after,
+        &.sort-desc:after {
+            font: normal normal normal 14px/1 FontAwesome;
             position: absolute;
             right: 3px;
-            top: 4px;
-            width: 14px;
-            height: 14px;
-            background-color: color-mix(
-                in srgb,
-                var(--mitmweb-th-sorted-bg) 80%,
-                transparent
-            );
+            top: 3px;
+            padding: 2px;
+            background-color: fadeout(lighten(#f2f2f2, 3%), 20%);
+        }
+
+        &.sort-asc:after {
+            content: "\f0de";
+        }
+
+        &.sort-desc:after {
+            content: "\f0dd";
         }
     }
 
@@ -63,38 +57,35 @@
         cursor: pointer;
 
         & {
-            background-color: var(--mitmweb-bg);
+            background-color: hsl(0, 0%, 100%);
             &:nth-child(even) {
-                background-color: var(--mitmweb-bg-alt);
+                background-color: hsl(0, 0%, 95%);
             }
         }
 
         &.highlighted {
-            background-color: var(--mitmweb-row-highlight);
+            background-color: hsl(48, 100%, 80%);
             &:nth-child(even) {
-                background-color: var(--mitmweb-row-highlight-alt);
+                background-color: hsl(48, 100%, 75%);
             }
         }
 
         &.selected {
-            background-color: var(--mitmweb-row-selected) !important;
+            background-color: hsl(209, 51%, 92%) !important;
             &:nth-child(even) {
-                background-color: var(--mitmweb-row-selected-alt) !important;
+                background-color: hsl(209, 51%, 86%) !important;
             }
         }
 
         &.selected.highlighted {
-            background-color: var(--mitmweb-row-selected-highlight) !important;
+            background-color: hsl(209, 96%, 74%) !important;
             &:nth-child(even) {
-                background-color: var(
-                    --mitmweb-row-selected-highlight-alt
-                ) !important;
+                background-color: hsl(209, 96%, 68%) !important;
             }
         }
     }
 
     td {
-        padding: 0;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -117,7 +108,7 @@
         }
     }
 
-    .icon {
+    .fa {
         line-height: inherit;
     }
 
@@ -135,34 +126,28 @@
     }
 
     .col-icon {
-        width: 24px;
-        color: var(--mitmweb-fg-muted);
-
-        .icon {
-            display: block;
-            margin: 0 auto;
-        }
+        width: 32px;
     }
 
     .col-path {
         .marker {
         }
 
-        .icon {
+        .fa {
             margin-left: 0;
             font-size: 16px;
         }
 
-        .icon-replay {
+        .fa-repeat {
             color: green;
         }
 
-        .icon-pause {
+        .fa-pause {
             color: @interceptorange;
         }
 
-        .icon-warning,
-        .icon-close {
+        .fa-exclamation,
+        .fa-times {
             color: darkred;
         }
     }
@@ -176,7 +161,7 @@
     }
 
     .col-status {
-        width: 80px;
+        width: 50px;
     }
 
     .col-size {
@@ -229,13 +214,19 @@
             height: 32px;
             width: 32px;
             border-radius: 16px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            text-align: center;
 
             &:hover {
                 background-color: rgba(0, 0, 0, 5%);
             }
         }
+    }
+
+    .col-quickactions .fa-play {
+        transform: translate(1px, 2px);
+    }
+
+    .col-quickactions .fa-repeat {
+        transform: translate(-0px, 2px);
     }
 }

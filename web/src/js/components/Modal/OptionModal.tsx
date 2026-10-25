@@ -7,17 +7,16 @@ import { compact, isEmpty } from "lodash";
 import type { RootState } from "../../ducks";
 import { useAppDispatch, useAppSelector } from "../../ducks";
 import OptionInput from "./OptionInput";
-import Icon from "../common/Icon";
 
 function OptionHelp({ name }: { name: Option }) {
     const help = useAppSelector((state) => state.options_meta[name]?.help);
-    return <div className="help-block text-small">{help}</div>;
+    return <div className="help-block small">{help}</div>;
 }
 
 function OptionError({ name }) {
     const error = useAppSelector((state) => state.options_meta[name]?.error);
     if (!error) return null;
-    return <div className="text-small text-danger">{error}</div>;
+    return <div className="small text-danger">{error}</div>;
 }
 
 export function PureOptionDefault({ value, defaultVal }) {
@@ -40,7 +39,7 @@ export function PureOptionDefault({ value, defaultVal }) {
             defaultVal = "null";
         }
         return (
-            <div className="text-small">
+            <div className="small">
                 Default: <strong> {defaultVal} </strong>{" "}
             </div>
         );
@@ -70,7 +69,7 @@ export default function OptionModal() {
                     data-dismiss="modal"
                     onClick={() => dispatch(modalAction.hideModal())}
                 >
-                    <Icon name="close" />
+                    <i className="fa fa-fw fa-times"></i>
                 </button>
                 <div className="modal-title">
                     <h4>Options</h4>
@@ -80,14 +79,12 @@ export default function OptionModal() {
             <div className="modal-body">
                 <div className="form-horizontal">
                     {options.map((name) => (
-                        <div key={name} className="form-row">
-                            <div className="col-6">
-                                <label className="control-label" htmlFor={name}>
-                                    {name}
-                                </label>
+                        <div key={name} className="form-group">
+                            <div className="col-xs-6">
+                                <label htmlFor={name}>{name}</label>
                                 <OptionHelp name={name} />
                             </div>
-                            <div className="col-6">
+                            <div className="col-xs-6">
                                 <OptionInput name={name} />
                                 <OptionError name={name} />
                                 <OptionDefault name={name} />

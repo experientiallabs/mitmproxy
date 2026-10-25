@@ -6,7 +6,7 @@ import { update as updateOptions } from "../../ducks/options";
 import classnames from "classnames";
 import { useAppDispatch, useAppSelector } from "../../ducks";
 
-const stopPropagation = (e: React.KeyboardEvent<HTMLElement>) => {
+const stopPropagation = (e) => {
     if (e.key !== "Escape") {
         e.stopPropagation();
     }
@@ -103,7 +103,7 @@ function StringSequenceOption({
 
     const [textAreaValue, setTextAreaValue] = React.useState(value.join("\n"));
 
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleChange = (e) => {
         const newValue = e.target.value;
         setTextAreaValue(newValue); //save in the state the current input value
         onChange(
@@ -148,7 +148,7 @@ function PureOption({ choices, type, value, onChange, name, error }) {
         if (!Opt) throw `unknown option type ${type}`;
     }
     if (Opt !== BooleanOption) {
-        props.className = "input";
+        props.className = "form-control";
     }
 
     return (

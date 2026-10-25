@@ -41,8 +41,7 @@ export default function FlowMenu(): JSX.Element {
                     <div className="menu-content">
                         <Button
                             title="[r]eplay flow"
-                            icon="replay"
-                            iconClassName="text-primary"
+                            icon="fa-repeat text-primary"
                             onClick={() => dispatch(replayFlows(selectedFlows))}
                             disabled={!selectedFlows.some(canReplay)}
                         >
@@ -50,8 +49,7 @@ export default function FlowMenu(): JSX.Element {
                         </Button>
                         <Button
                             title="[D]uplicate flow"
-                            icon="duplicate"
-                            iconClassName="text-info"
+                            icon="fa-copy text-info"
                             onClick={() =>
                                 dispatch(duplicateFlows(selectedFlows))
                             }
@@ -61,16 +59,14 @@ export default function FlowMenu(): JSX.Element {
                         <Button
                             disabled={!selectedFlows.some(canRevert)}
                             title="revert changes to flow [V]"
-                            icon="revert"
-                            iconClassName="text-warning"
+                            icon="fa-history text-warning"
                             onClick={() => dispatch(revertFlows(selectedFlows))}
                         >
                             Revert
                         </Button>
                         <Button
                             title="[d]elete flow"
-                            icon="delete"
-                            iconClassName="text-danger"
+                            icon="fa-trash text-danger"
                             onClick={() => {
                                 dispatch(removeFlows(selectedFlows));
                             }}
@@ -98,8 +94,7 @@ export default function FlowMenu(): JSX.Element {
                         <Button
                             disabled={!canResumeOrKillAny}
                             title="[a]ccept intercepted flow"
-                            icon="resume"
-                            iconClassName="text-success"
+                            icon="fa-play text-success"
                             onClick={() => dispatch(resumeFlows(selectedFlows))}
                         >
                             Resume
@@ -107,8 +102,7 @@ export default function FlowMenu(): JSX.Element {
                         <Button
                             disabled={!canResumeOrKillAny}
                             title="kill intercepted flow [x]"
-                            icon="abort"
-                            iconClassName="text-danger"
+                            icon="fa-times text-danger"
                             onClick={() => dispatch(killFlows(selectedFlows))}
                         >
                             Abort
@@ -122,7 +116,7 @@ export default function FlowMenu(): JSX.Element {
 }
 
 // Reference: https://stackoverflow.com/a/63627688/9921431
-const openInNewTab = (url: string) => {
+const openInNewTab = (url) => {
     const newWindow = window.open(url, "_blank", "noopener,noreferrer");
     if (newWindow) newWindow.opener = null;
 };
@@ -134,7 +128,7 @@ function DownloadButton({ flow }: { flow: Flow }) {
 
     if (flow.type !== "http")
         return (
-            <Button icon="download" onClick={() => 0} disabled>
+            <Button icon="fa-download" onClick={() => 0} disabled>
                 Download
             </Button>
         );
@@ -142,7 +136,7 @@ function DownloadButton({ flow }: { flow: Flow }) {
     if (flow.request.contentLength && !flow.response?.contentLength) {
         return (
             <Button
-                icon="download"
+                icon="fa-download"
                 onClick={() =>
                     openInNewTab(MessageUtils.getContentURL(flow, flow.request))
                 }
@@ -157,7 +151,7 @@ function DownloadButton({ flow }: { flow: Flow }) {
         if (!flow.request.contentLength && flow.response.contentLength) {
             return (
                 <Button
-                    icon="download"
+                    icon="fa-download"
                     onClick={() =>
                         openInNewTab(MessageUtils.getContentURL(flow, response))
                     }
@@ -172,7 +166,7 @@ function DownloadButton({ flow }: { flow: Flow }) {
                 <Dropdown
                     text={
                         <Button
-                            icon="download"
+                            icon="fa-download"
                             onClick={() => 1}
                             disabled={!hasSingleFlowSelected}
                         >
@@ -217,7 +211,7 @@ function ExportButton({ flow }: { flow: Flow }) {
             text={
                 <Button
                     title="Export flow."
-                    icon="export"
+                    icon="fa-clone"
                     onClick={() => 1}
                     disabled={flow.type !== "http" || !hasSingleFlowSelected}
                 >
@@ -261,8 +255,7 @@ function MarkButton({ flows }: { flows: Flow[] }) {
             text={
                 <Button
                     title="mark flow"
-                    icon="mark"
-                    iconClassName="text-success"
+                    icon="fa-paint-brush text-success"
                     onClick={() => 1}
                 >
                     Mark▾

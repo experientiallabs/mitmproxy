@@ -6,10 +6,10 @@
     flex-direction: column;
 
     > div {
-        background-color: var(--mitmweb-bg-alt);
+        background-color: #f2f2f2;
         padding: 0 5px;
         flex: 0 0 auto;
-        border-top: 1px solid var(--mitmweb-border-strong);
+        border-top: 1px solid #aaa;
         cursor: row-resize;
     }
 
@@ -20,27 +20,22 @@
         border-radius: 0;
         overflow-x: auto;
         overflow-y: scroll;
-        background-color: var(--mitmweb-bg);
+        background-color: #fcfcfc;
     }
 
-    .eventlog-actions {
-        display: inline-flex;
-        align-items: center;
-    }
-
-    .icon-close {
+    .fa-close {
         cursor: pointer;
-        color: var(--mitmweb-fg-muted);
-        margin-left: 6px;
+        float: right;
+        color: grey;
+        padding: 3px 0;
+        padding-left: 10px;
         &:hover {
-            color: var(--mitmweb-fg-strong);
+            color: black;
         }
     }
 
-    .toggle {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
+    .btn-toggle {
+        margin-top: -2px;
         margin-left: 3px;
         padding: 2px 2px;
         font-size: 10px;
@@ -51,6 +46,7 @@
         cursor: pointer;
         vertical-align: middle;
         display: inline-block;
+        margin-top: -2px;
         margin-left: 3px;
     }
 }

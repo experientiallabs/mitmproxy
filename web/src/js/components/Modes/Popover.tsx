@@ -1,19 +1,15 @@
 import * as React from "react";
-import Icon from "../common/Icon";
-import type { IconName } from "../common/Icon";
 
 interface PopoverProps {
     children: React.ReactNode;
-    icon: IconName;
-    iconClassName?: string;
+    iconClass: string;
     classname?: string;
     isVisible?: boolean; //used only for local mode
 }
 
 export function Popover({
     children,
-    icon,
-    iconClassName,
+    iconClass,
     classname,
     isVisible,
 }: PopoverProps) {
@@ -50,7 +46,7 @@ export function Popover({
             className={classname ? `mode-popover ${classname}` : "mode-popover"}
         >
             <button popoverTarget={id} ref={buttonRef}>
-                <Icon name={icon} className={iconClassName} />
+                <i className={iconClass} aria-hidden="true"></i>
             </button>
             <div id={id} popover="auto" ref={popoverRef}>
                 {children}

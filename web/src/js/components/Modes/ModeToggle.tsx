@@ -25,7 +25,6 @@ export function ModeToggle({
                 onChange={onChange}
             />
             <label
-                className="mode-entry-label"
                 htmlFor={`mode-checkbox-${id}`}
                 style={{ marginBottom: 0, fontWeight: "normal" }}
             >

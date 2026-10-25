@@ -69,8 +69,7 @@ function HttpMessageEdit({ flow, message, stopEdit }: HttpMessageEditProps) {
                 <h5>[Editing]</h5>
                 <Button
                     onClick={save}
-                    icon="confirm"
-                    iconClassName="text-success"
+                    icon="fa-check text-success"
                     className="btn-xs"
                 >
                     Done
@@ -78,8 +77,7 @@ function HttpMessageEdit({ flow, message, stopEdit }: HttpMessageEditProps) {
                 &nbsp;
                 <Button
                     onClick={() => stopEdit()}
-                    icon="close"
-                    iconClassName="text-danger"
+                    icon="fa-times text-danger"
                     className="btn-xs"
                 >
                     Cancel
@@ -140,12 +138,12 @@ function HttpMessageView({ flow, message, startEdit }: HttpMessageViewProps) {
                     <CopyButton flow={flow} message={message} />
                 )}
                 &nbsp;
-                <Button onClick={startEdit} icon="edit" className="btn-xs">
+                <Button onClick={startEdit} icon="fa-edit" className="btn-xs">
                     Edit
                 </Button>
                 &nbsp;
                 <FileChooser
-                    icon="upload"
+                    icon="fa-upload"
                     text="Replace"
                     title="Upload a file to replace the content."
                     onOpenFile={(content) =>
@@ -220,7 +218,7 @@ function CopyButton({ flow, message }: CopyButtonProps) {
     return (
         <Button
             onClick={handleClickCopyButton}
-            icon="clipboard"
+            icon="fa-clipboard"
             className="btn-xs"
             disabled={isFetchingFullContent}
         >
@@ -230,8 +228,8 @@ function CopyButton({ flow, message }: CopyButtonProps) {
 }
 
 const isImage =
-    /^image\/(png|jpe?g|gif|webp|avif|vnd\.microsoft\.icon|x-icon|svg\+xml)$/i;
-ViewImage.matches = (msg: HTTPMessage) =>
+    /^image\/(png|jpe?g|gif|webp|vnc.microsoft.icon|x-icon|svg\+xml)$/i;
+ViewImage.matches = (msg) =>
     isImage.test(MessageUtils.getContentType(msg) || "");
 
 type ViewImageProps = {

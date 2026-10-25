@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import * as autoscroll from "../helpers/AutoScroll";
 import type { VScroll } from "../helpers/VirtualScroll";
 import { calcVScroll } from "../helpers/VirtualScroll";
-import { LogLevel, type EventLogItem } from "../../ducks/eventLog";
+import type { EventLogItem } from "../../ducks/eventLog";
 import { shallowEqual } from "react-redux";
-import Icon, { type IconName } from "../common/Icon";
 
 type EventLogListProps = {
     events: EventLogItem[];
@@ -26,7 +25,7 @@ export default class EventLogList extends Component<
 
     viewport = React.createRef<HTMLPreElement>();
 
-    constructor(props: EventLogListProps) {
+    constructor(props) {
         super(props);
 
         this.heights = {};
@@ -48,30 +47,11 @@ export default class EventLogList extends Component<
         return autoscroll.isAtBottom(this.viewport);
     }
 
-    componentDidUpdate(
-        prevProps: EventLogListProps,
-        _prevState: EventLogListState,
-        snapshot: boolean,
-    ) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         if (snapshot) {
             autoscroll.adjustScrollTop(this.viewport);
         }
-        // Only recompute the virtual-scroll window when the event list or the
-        // row height actually changed. Calling onViewportUpdate on every
-        // update (including the setState it produces itself) let
-        // setState -> componentDidUpdate -> setState spin without converging
-        // once measured row heights differed from the assumed rowHeight,
-        // surfacing as "Maximum update depth exceeded" while scrolling the
-        // event log. The same fix was applied to FlowTable in #8233. The
-        // other call sites still drive updates as needed: componentDidMount,
-        // the resize listener, the viewport onScroll, and setHeight when a
-        // row is first measured.
-        if (
-            prevProps.events !== this.props.events ||
-            prevProps.rowHeight !== this.props.rowHeight
-        ) {
-            this.onViewportUpdate();
-        }
+        this.onViewportUpdate();
     }
 
     onViewportUpdate() {
@@ -92,7 +72,7 @@ export default class EventLogList extends Component<
         }
     }
 
-    setHeight(id: string, node: HTMLDivElement | null) {
+    setHeight(id, node) {
         if (node && !this.heights[id]) {
             const height = node.offsetHeight;
             if (this.heights[id] !== height) {
@@ -127,13 +107,12 @@ export default class EventLogList extends Component<
 }
 
 function LogIcon({ event }: { event: EventLogItem }) {
-    const iconsByLevel: Record<LogLevel, IconName> = {
-        [LogLevel.web]: "browser",
-        [LogLevel.debug]: "debug",
-        [LogLevel.info]: "info",
-        [LogLevel.warn]: "warning",
-        [LogLevel.error]: "error",
-    };
-    const icon = iconsByLevel[event.level] ?? "info";
-    return <Icon name={icon} />;
+    const icon =
+        {
+            web: "html5",
+            debug: "bug",
+            warn: "exclamation-triangle",
+            error: "ban",
+        }[event.level] || "info";
+    return <i className={`fa fa-fw fa-${icon}`} />;
 }

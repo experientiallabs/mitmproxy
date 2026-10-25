@@ -6,7 +6,6 @@ import { Popover } from "./Popover";
 import type { Process } from "../../ducks/processes";
 import { fetchProcesses } from "../../ducks/processes";
 import { rpartition } from "../../utils";
-import Icon from "../common/Icon";
 
 interface LocalDropdownProps {
     server: LocalState;
@@ -120,13 +119,13 @@ export default function LocalDropdown({ server }: LocalDropdownProps) {
                     onBlur={() => setPopoverVisible(false)}
                 />
                 <Popover
-                    icon="chevronDown"
+                    iconClass="fa fa-chevron-down"
                     classname="local-popover"
                     isVisible={isPopoverVisible}
                 >
                     <h4>Current Applications running on machine</h4>
                     {isLoading ? (
-                        <Icon name="loading" />
+                        <i className="fa fa-spinner" aria-hidden="true"></i>
                     ) : filteredProcesses.length > 0 ? (
                         <ul className="dropdown-list">
                             <li
@@ -148,7 +147,10 @@ export default function LocalDropdown({ server }: LocalDropdownProps) {
                                     </span>
                                 </div>
                                 {selectedProcesses === "" && (
-                                    <Icon name="confirm" />
+                                    <i
+                                        className="fa fa-check"
+                                        aria-hidden="true"
+                                    />
                                 )}
                             </li>
                             <hr className="process-separator" />
@@ -172,7 +174,10 @@ export default function LocalDropdown({ server }: LocalDropdownProps) {
                                         </span>
                                     </div>
                                     {isSelected(option) && (
-                                        <Icon name="confirm" />
+                                        <i
+                                            className="fa fa-check"
+                                            aria-hidden="true"
+                                        />
                                     )}
                                 </li>
                             ))}

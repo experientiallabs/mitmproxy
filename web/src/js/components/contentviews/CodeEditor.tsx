@@ -5,9 +5,7 @@ import { css } from "@codemirror/lang-css";
 import { html } from "@codemirror/lang-html";
 import { javascript } from "@codemirror/lang-javascript";
 import { yaml } from "@codemirror/lang-yaml";
-import { oneDark } from "@codemirror/theme-one-dark";
 import { SyntaxHighlight } from "../../backends/consts";
-import { useResolvedTheme } from "../helpers/useTheme";
 
 type CodeEditorProps = {
     initialContent: string;
@@ -22,7 +20,6 @@ export default function CodeEditor({
     language,
     readonly = false,
 }: CodeEditorProps) {
-    const resolvedTheme = useResolvedTheme();
     const stopPropagation = useCallback(
         (e: React.KeyboardEvent<HTMLDivElement>) => e.stopPropagation(),
         [],
@@ -60,7 +57,6 @@ export default function CodeEditor({
                 onChange={onChange}
                 readOnly={readonly}
                 extensions={extensions}
-                theme={resolvedTheme === "dark" ? oneDark : "light"}
             />
         </div>
     );

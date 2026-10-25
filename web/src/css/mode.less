@@ -1,11 +1,16 @@
+@import (reference) "../../node_modules/bootstrap/less/variables.less";
+@import (reference) "../../node_modules/bootstrap/less/mixins/grid.less";
+@import (reference) "../../node_modules/bootstrap/less/mixins/labels.less";
+@import (reference) "../../node_modules/bootstrap/less/labels.less";
+
 .modes {
     padding: 1em 2em 2em 2em;
     overflow-y: auto;
     height: 100%;
     width: 100vw;
 
-    h2 {
-        margin-bottom: 0;
+    h3 {
+        margin-bottom: 10px;
     }
 
     .modes-category {
@@ -13,11 +18,11 @@
     }
 
     .green-left-border {
-        border-left: 10px solid var(--mitmweb-green);
+        border-left: 10px solid #77c77a;
     }
 
     .gray-left-border {
-        border-left: 10px solid var(--mitmweb-gray);
+        border-left: 10px solid #b2b2b2;
     }
 
     .modes-container {
@@ -32,7 +37,7 @@
     }
 
     .mode-description {
-        color: var(--mitmweb-gray);
+        color: #b2b2b2;
         margin-top: -10px;
     }
 
@@ -40,22 +45,15 @@
         text-align: left;
         display: flex;
         align-items: center;
-        gap: 8px;
         font-size: 1.5rem;
         font-weight: normal;
         margin: 0;
 
         input[type="checkbox"] {
-            margin: 0 2px 0 0;
+            margin: 0 10px;
+            vertical-align: middle;
             width: 1.8rem;
             height: 1.8rem;
-            flex: 0 0 auto;
-        }
-
-        .mode-entry-label {
-            display: inline-flex;
-            align-items: center;
-            min-height: 26px;
         }
 
         p {
@@ -70,14 +68,9 @@
     }
 
     .mode-local {
-        .icon {
+        i {
             font-size: 1.8rem;
             cursor: pointer;
-            transition: color 120ms ease-in-out;
-
-            &:hover {
-                color: var(--mitmweb-fg);
-            }
         }
         .processes-container {
             display: flex;
@@ -96,7 +89,7 @@
             display: flex;
             flex-direction: row;
             gap: 5px;
-            background-color: var(--mitmweb-bg-active);
+            background-color: #e0e0e0;
             padding: 5px;
             border-radius: 4px;
             height: 30px;
@@ -105,7 +98,7 @@
             align-content: center;
             align-items: center;
 
-            > .icon {
+            > i {
                 font-size: 15px;
             }
         }
@@ -122,7 +115,7 @@
 
             .dropdown-header {
                 padding: 5px;
-                border: 1px solid var(--mitmweb-border);
+                border: 1px solid #ccc;
                 border-radius: 4px;
                 cursor: pointer;
                 display: flex;
@@ -130,16 +123,13 @@
                 align-items: center;
                 margin-right: 10px;
                 height: 30px;
-                overflow: hidden;
             }
 
             input {
                 border: none;
                 flex: 1;
-                min-width: 0;
                 outline: none;
-                color: var(--mitmweb-fg);
-                background: transparent;
+                color: black;
             }
 
             .dropdown-list {
@@ -165,11 +155,11 @@
             }
 
             .dropdown-item.selected {
-                background-color: var(--mitmweb-bg-active);
+                background-color: #e0e0e0;
             }
 
             .dropdown-item:hover {
-                background-color: var(--mitmweb-bg-muted);
+                background-color: #f0f0f0;
             }
 
             .process-details {
@@ -184,12 +174,11 @@
                 color: #5f6368;
                 width: 25px;
                 height: 25px;
-                filter: var(--mitmweb-bitmap-icon-filter);
             }
 
             .process-name {
                 font-weight: 500;
-                color: var(--mitmweb-fg);
+                color: #333;
             }
 
             .process-separator {
@@ -201,22 +190,9 @@
         .local-popover {
             button {
                 font-size: 1rem;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                padding: 0;
-                width: 24px;
-                height: 24px;
             }
-
-            > button .icon {
-                font-size: 1.2rem;
-                line-height: 1;
-            }
-
-            .dropdown-item > .icon-confirm {
-                font-size: 1.2rem;
-                line-height: 1;
+            i {
+                font-size: 1.5rem;
             }
 
             @supports (anchor-name: --test) {
@@ -239,7 +215,7 @@
     }
 
     .mode-input {
-        border: 1px solid var(--mitmweb-border);
+        border: 1px solid #ccc;
         margin-left: 10px;
         border-radius: 4px;
         min-width: 120px;
@@ -247,7 +223,7 @@
     }
 
     .mode-reverse-input {
-        border: 1px solid var(--mitmweb-border);
+        border: 1px solid #ccc;
         margin-left: 10px;
         margin-right: 10px;
         border-radius: 4px;
@@ -256,7 +232,7 @@
     }
 
     .mode-upstream-input {
-        border: 1px solid var(--mitmweb-border);
+        border: 1px solid #ccc;
         margin-left: 10px;
         margin-right: 5px;
         border-radius: 4px;
@@ -266,7 +242,7 @@
 
     .mode-reverse-dropdown {
         margin: 0 5px;
-        border: 1px solid var(--mitmweb-border);
+        border: 1px solid #ccc;
         border-radius: 4px;
         height: 25px;
     }
@@ -291,56 +267,18 @@
             opacity: 1;
         }
 
-        .icon {
-            width: 20px;
-            height: 20px;
+        i {
+            font-size: 2rem;
             margin-right: 5px;
         }
     }
 
     .mode-popover {
-        display: inline-flex;
-        align-items: center;
-        align-self: center;
-
         > button {
             background-color: transparent;
             border: none;
             cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            width: 26px;
-            height: 26px;
-            line-height: 1;
-        }
-
-        > button .icon {
-            color: var(--mitmweb-fg-muted);
-            width: 20px;
-            height: 20px;
-            transition: color 120ms ease-in-out;
-
-            &:hover {
-                color: var(--mitmweb-fg);
-            }
-        }
-
-        &.local-popover > button {
-            font-size: 1rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            width: 26px;
-            height: 26px;
-            flex: 0 0 auto;
-        }
-
-        &.local-popover > button .icon {
-            width: 18px;
-            height: 18px;
+            font-size: 2rem;
         }
 
         @supports (anchor-name: --test) {
@@ -352,10 +290,10 @@
         }
 
         > div {
-            border: 1px solid var(--mitmweb-border);
+            border: 1px solid #ccc;
             border-radius: 4px;
             padding: 10px 15px;
-            background-color: var(--mitmweb-bg);
+            background-color: #f9f9f9;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
             &:popover-open {
@@ -372,14 +310,14 @@
             }
             > .mode-input {
                 text-align: right;
-                background-color: var(--mitmweb-bg);
+                background-color: white;
                 margin: 0;
             }
         }
     }
 
     .missing-mode-container {
-        color: var(--mitmweb-gray);
+        color: #b2b2b2;
 
         .title-icon-container {
             display: flex;

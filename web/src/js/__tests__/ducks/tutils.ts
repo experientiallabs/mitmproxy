@@ -95,7 +95,6 @@ export const testState: RootState = {
             desc: true,
             column: "path",
         },
-        orderReversed: false,
         view: [tflow1, tflow2, tflow3, tflow4],
         list: [tflow0, tflow1, tflow2, tflow3, tflow4],
         _listIndex: new Map<string, number>([

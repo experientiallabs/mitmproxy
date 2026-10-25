@@ -3,7 +3,6 @@
 exports[`CaptureSetup 1`] = `
 <DocumentFragment>
   <div
-    class="capture-setup"
     style="padding: 1em 2em;"
   >
     <h3>

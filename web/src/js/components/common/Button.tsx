@@ -1,13 +1,10 @@
 import * as React from "react";
 import classnames from "classnames";
-import Icon from "./Icon";
-import type { IconName } from "./Icon";
 
 export interface ButtonProps {
     onClick: () => void;
     children?: React.ReactNode;
-    icon?: IconName;
-    iconClassName?: string;
+    icon?: string;
     disabled?: boolean;
     className?: string;
     title?: string;
@@ -17,7 +14,6 @@ export default function Button({
     onClick,
     children,
     icon,
-    iconClassName,
     disabled,
     className,
     title,
@@ -31,7 +27,7 @@ export default function Button({
         >
             {icon && (
                 <>
-                    <Icon name={icon} className={iconClassName} />
+                    <i className={"fa " + icon} />
                     &nbsp;
                 </>
             )}
