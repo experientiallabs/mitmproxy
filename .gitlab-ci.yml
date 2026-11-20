@@ -12,7 +12,7 @@ stages:
   - publish
 
 variables:
-  UV_VERSION: "0.12.18"
+  UV_VERSION: "0.13.4"
 
 package:
   stage: test

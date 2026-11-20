@@ -10,6 +10,8 @@
 ## Testing
 
 - Run `npm test` to run the test suite.
+- GitHub CI runs the web checks and release build on Node.js 24.22.3. Tag
+  publication requires the web job to pass alongside the Python release gates.
 
 ## Code formatting
 
