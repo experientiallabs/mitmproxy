@@ -19,7 +19,7 @@ async def main():
     exclude = re.compile(
         "|".join(
             f"({fnmatch.translate(x)})"
-            for x in data["tool"]["pytest"]["individual_coverage"]["exclude"]
+            for x in data["tool"]["individual_coverage"]["exclude"]
         )
     )
 
@@ -35,7 +35,7 @@ async def main():
             if full_cov_on_import:
                 if should_fail:
                     raise RuntimeError(
-                        f"Remove {f} from tool.pytest.individual_coverage in pyproject.toml."
+                        f"Remove {f} from tool.individual_coverage in pyproject.toml."
                     )
                 else:
                     print(f"{f}: skip __init__.py file without logic")
@@ -78,7 +78,7 @@ async def main():
                     print(f"{f}: excluded")
                 else:
                     raise RuntimeError(
-                        f"{f} is now fully covered by {test_file}. Remove it from tool.pytest.individual_coverage in pyproject.toml."
+                        f"{f} is now fully covered by {test_file}. Remove it from tool.individual_coverage in pyproject.toml."
                     )
             else:
                 if proc.returncode == 0:

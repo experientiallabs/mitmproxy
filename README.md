@@ -39,3 +39,18 @@ use GitHub Discussions!
 As an open source project, mitmproxy welcomes contributions of all forms.
 
 [![Dev Guide](https://shields.mitmproxy.org/badge/dev_docs-CONTRIBUTING.md-blue)](./CONTRIBUTING.md)
+
+### Dependency security maintenance
+
+The dependency definitions include the patched Tornado and Urwid releases and
+updated certificate, HTTP, environment and build/test utilities. Python resolution
+uses a seven-day release cooldown. The pytest 9 upgrade moves the custom individual
+coverage configuration out of pytest's reserved namespace; its consumer reads the
+new `tool.individual_coverage` key. CI now checks console and web behavior as well
+as the proxy engine and builds the web assets without publishing or deploying.
+
+The web lock also updates TypeScript ESLint within its supported major and scopes
+security overrides to its Minimatch consumer and the optional desktop notifier
+UUID generator. Both retain the CommonJS APIs those callers use. The existing
+Bootstrap 3 UI has no patched 3.x release for its remaining advisories; migrating
+that UI is separate work.
