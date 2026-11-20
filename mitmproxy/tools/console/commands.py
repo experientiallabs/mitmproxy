@@ -151,6 +151,6 @@ class Commands(urwid.Pile, layoutwidget.LayoutWidget):
         item_rows = None
         if len(size) == 2:
             item_rows = self.get_item_rows(size, focus=True)
-        i = self.widget_list.index(self.focus_item)
+        i = self.focus_position
         tsize = self.get_item_size(size, i, True, item_rows)
-        return self.focus_item.keypress(tsize, key)
+        return self.focus.keypress(tsize, key)

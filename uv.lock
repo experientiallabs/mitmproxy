@@ -685,7 +685,7 @@ requires-dist = [
     { name = "brotli", specifier = "<=1.2.1,>=1.2.1" },
     { name = "certifi", specifier = ">=2026.10.23" },
     { name = "cryptography", specifier = "<=50.0.1,>=50.0.1" },
-    { name = "exp-mitmproxy-rs", specifier = "==0.12.11.post1" },
+    { name = "exp-mitmproxy-rs", git = "https://github.com/experientiallabs/mitmproxy_rs.git?subdirectory=mitmproxy-rs&rev=866da0a0aff1a8e57def4da6a941fca0c44dd98d" },
     { name = "flask", specifier = "<=3.1.3,>=3.1.3" },
     { name = "h11", specifier = "<=0.16.0,>=0.16.0" },
     { name = "h2", specifier = "<=4.4.1,>=4.4.1" },
@@ -753,18 +753,11 @@ tox = [
 [[package]]
 name = "exp-mitmproxy-rs"
 version = "0.12.11.post1"
-source = { registry = "https://pypi.org/simple" }
+source = { git = "https://github.com/experientiallabs/mitmproxy_rs.git?subdirectory=mitmproxy-rs&rev=866da0a0aff1a8e57def4da6a941fca0c44dd98d#866da0a0aff1a8e57def4da6a941fca0c44dd98d" }
 dependencies = [
     { name = "mitmproxy-linux", marker = "sys_platform == 'linux'" },
     { name = "mitmproxy-macos", marker = "sys_platform == 'darwin'" },
     { name = "mitmproxy-windows", marker = "os_name == 'nt'" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/1f/84/71cc96c773c4563f203ce19acf4949b307db396f8c88b5d9c18903a4290d/exp_mitmproxy_rs-0.12.11.post1.tar.gz", hash = "sha256:446ece932e8e9e6bfc72559961953c1b1eda0dce553aa150076e4f5634fd0c71", size = 1333480, upload-time = "2026-09-25T02:33:18.394Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/d9/05/63600c6da6934ad6956fb646952027dcf4026e2b1a38536b969db2483820/exp_mitmproxy_rs-0.12.11.post1-cp312-abi3-macosx_10_12_x86_64.macosx_11_0_arm64.macosx_10_12_universal2.whl", hash = "sha256:235c98140bd40f1bd66d85f90e61802aae7ed57661e9cef73717b931ed450a4d", size = 7122966, upload-time = "2026-09-25T02:33:10.349Z" },
-    { url = "https://files.pythonhosted.org/packages/09/fa/434353607f283a261bcdf5fff3f47ef0a063a233539b955bbe55cef95b19/exp_mitmproxy_rs-0.12.11.post1-cp312-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:e9f81267d092c75c6f5bd33a6f8ca69668dabe910b172cf947fb38b9ef98d635", size = 3101767, upload-time = "2026-09-25T02:33:13.008Z" },
-    { url = "https://files.pythonhosted.org/packages/0e/99/6cf273d940d5157e4cc471c4e30d550bcd09d12f42c836af4a9476f84b67/exp_mitmproxy_rs-0.12.11.post1-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:324e48c4cbbf6bf52bc285b90c33602e2921b7085554ad6c48216744eaddf964", size = 3270782, upload-time = "2026-09-25T02:33:15.026Z" },
-    { url = "https://files.pythonhosted.org/packages/5b/15/ce094e8a10e17e823fee302144b23ba27c6b8de6309584d50ce8e02788ca/exp_mitmproxy_rs-0.12.11.post1-cp312-abi3-win_amd64.whl", hash = "sha256:69e39f216e467fb919480ab3655b9e28df11daa9615569a2d09d7e8d80d37faf", size = 3324642, upload-time = "2026-09-25T02:33:16.691Z" },
 ]
 
 [[package]]

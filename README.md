@@ -54,3 +54,7 @@ security overrides to its Minimatch consumer and the optional desktop notifier
 UUID generator. Both retain the CommonJS APIs those callers use. The existing
 Bootstrap 3 UI has no patched 3.x release for its remaining advisories; migrating
 that UI is separate work.
+
+The command-reference screen uses Urwid 4 focus APIs. Its keyboard navigation
+is exercised by a console regression test. The development lock retains the
+existing native Git source; published-dependency release checks remain separate.
