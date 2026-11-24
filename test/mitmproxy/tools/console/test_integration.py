@@ -17,6 +17,11 @@ def test_keybindings_home_end(console):
     assert "Key Binding" in console.screen_contents()
 
 
+def test_command_reference_navigation(console):
+    console.type("C<home><end><tab><down><tab><home>")
+    assert "Command Reference" in console.screen_contents()
+
+
 def test_replay_count(console):
     console.type(":replay.server.count<enter>")
     assert "Data viewer" in console.screen_contents()

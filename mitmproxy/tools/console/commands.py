@@ -81,6 +81,11 @@ class CommandListWalker(urwid.ListWalker):
             return None, None
         return self._get(pos), pos
 
+    def positions(self, reverse: bool = False) -> range:
+        """Return command positions for list-boundary navigation."""
+        positions = range(len(self.cmds))
+        return positions[::-1] if reverse else positions
+
 
 class CommandsList(urwid.ListBox):
     def __init__(self, master):
@@ -151,6 +156,6 @@ class Commands(urwid.Pile, layoutwidget.LayoutWidget):
         item_rows = None
         if len(size) == 2:
             item_rows = self.get_item_rows(size, focus=True)
-        i = self.widget_list.index(self.focus_item)
+        i = self.widget_list.index(self.focus)
         tsize = self.get_item_size(size, i, True, item_rows)
-        return self.focus_item.keypress(tsize, key)
+        return self.focus.keypress(tsize, key)
