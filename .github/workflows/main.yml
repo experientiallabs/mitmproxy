@@ -36,7 +36,7 @@ jobs:
         run: >-
           uv run --no-sync pytest -q test/mitmproxy/net/test_encoding.py
           test/mitmproxy/proxy test/mitmproxy/addons/test_proxyserver.py
-          test/mitmproxy/addons/test_next_layer.py
+          test/mitmproxy/addons/test_next_layer.py test/mitmproxy/tools/console
       - name: Build the release distributions
         run: uv build --no-sources
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

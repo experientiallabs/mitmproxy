@@ -589,7 +589,7 @@ wheels = [
 
 [[package]]
 name = "exp-mitmproxy"
-version = "12.2.3.post3"
+version = "12.2.3.post4"
 source = { editable = "." }
 dependencies = [
     { name = "aioquic" },
@@ -695,7 +695,7 @@ requires-dist = [
     { name = "sortedcontainers", specifier = ">=2.3,<=2.4.0" },
     { name = "tornado", specifier = "<=6.5.10,>=6.5.10" },
     { name = "typing-extensions", marker = "python_full_version < '3.13'", specifier = ">=4.13.2,<=4.14" },
-    { name = "urwid", specifier = ">=2.6.14,<=3.0.5" },
+    { name = "urwid", specifier = ">=4.0.7,<=4.0.13" },
     { name = "werkzeug", specifier = ">=3.1.6,<4" },
     { name = "wsproto", specifier = ">=1.0,<=1.3.2" },
     { name = "zstandard", specifier = "<=0.25.0,>=0.25" },
@@ -2010,14 +2010,15 @@ wheels = [
 
 [[package]]
 name = "urwid"
-version = "3.0.3"
+version = "4.0.13"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
+    { name = "typing-extensions" },
     { name = "wcwidth" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/bb/d3/09683323e2290732a39dc92ca5031d5e5ddda56f8d236f885a400535b29a/urwid-3.0.3.tar.gz", hash = "sha256:300804dd568cda5aa1c5b204227bd0cfe7a62cef2d00987c5eb2e4e64294ed9b", size = 855817, upload-time = "2025-09-15T10:26:17.089Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ee/cc/0296b98c284d0b9c375e068bfcc6693c0a8b36e3ad7ce507ce7b3a8d2448/urwid-4.0.13.tar.gz", hash = "sha256:23afb15197b9e3b656b8c55bb3e18d50463c34db1982ec81ef5034525bea6c76", size = 891170, upload-time = "2026-08-25T13:59:50.569Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c0/50/a35894423102d76b9b9ae011ab643d8102120c6dc420e86b16caa7441117/urwid-3.0.3-py3-none-any.whl", hash = "sha256:ede36ecc99a293bbb4b5e5072c7b7bb943eb3bed17decf89b808209ed2dead15", size = 296144, upload-time = "2025-09-15T10:26:15.38Z" },
+    { url = "https://files.pythonhosted.org/packages/0a/e9/4a31e301daab899c550767e417c7e4b1a4773591d3298d59db0393034a1b/urwid-4.0.13-py3-none-any.whl", hash = "sha256:bee62404d24d06d9ffa74d834b03d5ba53c419a135b36831775fc69c6246e6fa", size = 310654, upload-time = "2026-08-25T13:59:48.466Z" },
 ]
 
 [[package]]
